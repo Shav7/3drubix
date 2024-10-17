@@ -1,30 +1,109 @@
 import React from 'react';
+import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
 import { Canvas } from '@react-three/fiber';
 import { OrbitControls } from '@react-three/drei';
 import CubeComponent from './components/CubeComponent';
+import PathMorphingComponent from './components/PathMorphingComponent';
+import './App.css';  // Custom styling
 
 function App() {
   return (
-    <Canvas
-  camera={{
-    position: [0, 0, 20], // Set a farther starting position to allow more zoom out
-    fov: 50, // Field of view to control the perspective
-  }}
-  style={{ height: '100vh', background: '#f0f0f0' }} // Set background to off white or light grey
->
-      <ambientLight intensity={0.5} />
-      <pointLight position={[10, 10, 10]} />
-      <CubeComponent />
-      <OrbitControls
-        enableZoom={true} // Enable zooming
-        minDistance={5} // Minimum distance for zooming in
-        maxDistance={50} // Increase this value to allow zooming out further
-      />
-    </Canvas>
+    <Router>
+      <div style={styles.container}>
+        <nav style={styles.navbar}>
+          <Link to="/" style={styles.navLink}>3D Cube</Link>
+          <Link to="/morphing" style={styles.navLink}>Path Morphing</Link>
+        </nav>
+
+        <Routes>
+          {/* Route for 3D Cube */}
+          <Route path="/" element={<CubePage />} />
+          {/* Route for Path Morphing */}
+          <Route path="/morphing" element={<MorphingPage />} />
+        </Routes>
+      </div>
+    </Router>
   );
 }
 
+function CubePage() {
+  return (
+    <div style={styles.fullScreen}>
+      <Canvas
+        camera={{ position: [0, 0, 20], fov: 50 }}
+        style={styles.canvasStyle}
+      >
+        <ambientLight intensity={0.5} />
+        <pointLight position={[10, 10, 10]} />
+        <CubeComponent />
+        <OrbitControls enableZoom={true} minDistance={5} maxDistance={50} />
+      </Canvas>
+    </div>
+  );
+}
+
+function MorphingPage() {
+  return (
+    <div style={styles.whiteBackground}>
+      <PathMorphingComponent />
+    </div>
+  );
+}
+
+const styles = {
+  container: {
+    fontFamily: 'Arial, sans-serif',
+    height: '100vh',
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+  },
+  navbar: {
+    padding: '10px',
+    background: '#f0f0f0',
+    width: '100%',
+    display: 'flex',
+    justifyContent: 'center',
+    borderBottom: '1px solid #ccc',
+  },
+  navLink: {
+    margin: '0 15px',
+    textDecoration: 'none',
+    fontSize: '18px',
+    color: '#333',
+    padding: '10px 15px',
+    borderRadius: '5px',
+    backgroundColor: '#e0e0e0',
+    transition: 'background-color 0.3s ease',
+  },
+  fullScreen: {
+    height: '100vh',
+    width: '100vw',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  canvasStyle: {
+    width: '100%',
+    height: '100%',
+    backgroundColor: '#f0f0f0',
+  },
+  whiteBackground: {
+    backgroundColor: '#fff',
+    height: '100vh',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+};
+
 export default App;
+
+
+
+
+
+
 
 
 
