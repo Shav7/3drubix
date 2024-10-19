@@ -4,6 +4,7 @@ import { Canvas } from '@react-three/fiber';
 import { OrbitControls } from '@react-three/drei';
 import CubeComponent from './components/CubeComponent';
 import PathMorphingComponent from './components/PathMorphingComponent';
+import ShaderPlane from './components/ShaderPlane';  // Import the shader component
 import './App.css';  // Custom styling
 
 function App() {
@@ -13,6 +14,7 @@ function App() {
         <nav style={styles.navbar}>
           <Link to="/" style={styles.navLink}>3D Cube</Link>
           <Link to="/morphing" style={styles.navLink}>Path Morphing</Link>
+          <Link to="/shader" style={styles.navLink}>Shader</Link> {/* New shader route */}
         </nav>
 
         <Routes>
@@ -20,6 +22,8 @@ function App() {
           <Route path="/" element={<CubePage />} />
           {/* Route for Path Morphing */}
           <Route path="/morphing" element={<MorphingPage />} />
+          {/* Route for Shader */}
+          <Route path="/shader" element={<ShaderPage />} />  {/* New shader page */}
         </Routes>
       </div>
     </Router>
@@ -46,6 +50,22 @@ function MorphingPage() {
   return (
     <div style={styles.whiteBackground}>
       <PathMorphingComponent />
+    </div>
+  );
+}
+
+// New shader page with ShaderPlane component inside Canvas
+function ShaderPage() {
+  return (
+    <div style={styles.fullScreen}>
+      <Canvas
+        camera={{ position: [0, 0, 5], fov: 50 }}
+        style={styles.canvasStyle}
+      >
+        <ambientLight intensity={0.5} />
+        <pointLight position={[10, 10, 10]} />
+        <ShaderPlane />  {/* Render the ShaderPlane component */}
+      </Canvas>
     </div>
   );
 }
@@ -98,6 +118,7 @@ const styles = {
 };
 
 export default App;
+
 
 
 
